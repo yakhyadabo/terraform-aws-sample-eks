@@ -3,21 +3,6 @@
 resource "aws_iam_role" "eks_cluster" {
   name = "${var.service_name}-cluster"
   assume_role_policy = data.aws_iam_policy_document.assume_cluster.json
-
-  #  assume_role_policy = <<POLICY
-#{
-#  "Version": "2012-10-17",
-#  "Statement": [
-#    {
-#      "Effect": "Allow",
-#      "Principal": {
-#        "Service": "eks.amazonaws.com"
-#      },
-#      "Action": "sts:AssumeRole"
-#    }
-#  ]
-#}
-#POLICY
 }
 
 data "aws_iam_policy_document" "assume_cluster" {
