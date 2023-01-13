@@ -14,7 +14,7 @@ data "aws_subnets" "eks_cluster" {
   }
 
   tags = {
-    Zone = local.zone.eks_cluster
+    Tier = local.tier.eks_cluster
   }
 }
 
@@ -26,7 +26,7 @@ data "aws_subnets" "private" {
   }
 
   tags = {
-    Zone = local.zone.private
+    Tier = local.tier.private
   }
 }
 
@@ -38,6 +38,6 @@ data "aws_subnets" "public" {
   }
 
   tags = {
-    Zone = local.zone.public
+    Tier = local.tier.public
   }
 }

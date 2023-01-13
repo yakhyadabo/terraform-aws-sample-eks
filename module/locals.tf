@@ -1,5 +1,5 @@
 locals {
-  zone = {
+  tier = {
     public      = "pbl"
     private     = "prv"
     eks_cluster = "eks"
