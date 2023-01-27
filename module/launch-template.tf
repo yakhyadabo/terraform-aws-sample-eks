@@ -36,12 +36,26 @@ set -ex
   EOF
   )*/
 
+  tags = {
+    "eks:cluster-name"   = aws_eks_cluster.main.name
+    "eks:nodegroup-name" = join("-", [var.service_name, var.environment,"node-group"])
+  }
+  
   tag_specifications {
     resource_type = "instance"
 
     tags = {
       Name = join("-", [var.service_name, var.environment,"node-group"])
       "kubernetes.io/cluster/eks" = "owned"
+    }
+  }
+
+  tag_specifications {
+    resource_type = "volume"
+
+    tags = {
+      "eks:cluster-name"   =  aws_eks_cluster.main.name
+      "eks:nodegroup-name" = join("-", [var.service_name, var.environment,"node-group"])
     }
   }
 }
