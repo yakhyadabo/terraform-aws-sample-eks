@@ -50,6 +50,12 @@ variable "disk_size" {
   default = 20
 }
 
+variable "volume_type" {
+  description = "Volume type for worker nodes. Default to gp2"
+  type = string
+  default = "gp2"
+}
+
 variable "instance_types" {
   type = list(string)
   default = ["t3.medium"]
