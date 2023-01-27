@@ -6,13 +6,18 @@ resource "aws_eks_node_group" "main" {
   subnet_ids      = data.aws_subnets.private.ids
 
   ami_type       = var.ami_type
-  disk_size      = var.disk_size
+  //disk_size      = var.disk_size // Set in the launch template
   instance_types = var.instance_types
 
   scaling_config {
     desired_size = var.private_desired_size
     max_size     = var.private_max_size
     min_size     = var.private_min_size
+  }
+
+  launch_template {
+    name = aws_launch_template.default.name
+    version = aws_launch_template.default.latest_version
   }
 
   tags = {
@@ -36,13 +41,18 @@ resource "aws_eks_node_group" "public" {
   subnet_ids      = data.aws_subnets.public.ids
 
   ami_type       = var.ami_type
-  disk_size      = var.disk_size
+  // disk_size      = var.disk_size // Set in the launch template
   instance_types = var.instance_types
 
   scaling_config {
     desired_size = var.public_desired_size
     max_size     = var.public_max_size
     min_size     = var.public_min_size
+  }
+
+  launch_template {
+    name = aws_launch_template.default.name
+    version = aws_launch_template.default.latest_version
   }
 
   tags = {
