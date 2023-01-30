@@ -5,9 +5,9 @@ resource "aws_eks_node_group" "main" {
   node_role_arn   = aws_iam_role.eks_nodes.arn
   subnet_ids      = data.aws_subnets.private.ids
 
-  ami_type       = var.ami_type
-  //disk_size      = var.disk_size // Set in the launch template
-  instance_types = var.instance_types
+  // ami_type       = var.ami_type
+  // disk_size      = var.disk_size // Set in the launch template
+  // instance_types = var.instance_types
 
   scaling_config {
     desired_size = var.private_desired_size
@@ -16,13 +16,19 @@ resource "aws_eks_node_group" "main" {
   }
 
   launch_template {
-    name = aws_launch_template.default.name
-    version = aws_launch_template.default.latest_version
+    name = data.aws_launch_template.default.name
+    version = data.aws_launch_template.default.latest_version
   }
 
+  //   tags = merge(var.default_tags, map("Name", "your-eks-cluster-ng"))
   tags = {
     Name = join("-", [var.service_name, var.environment,"node-group-private"])
   }
+
+/*  lifecycle {
+    create_before_destroy = true
+    ignore_changes = [scaling_config[0].desired_size, scaling_config[0].min_size]
+  }*/
 
   # Ensure that IAM Role permissions are created before and deleted after EKS Node Group handling.
   # Otherwise, EKS will not be able to properly delete EC2 Instances and Elastic Network Interfaces.
@@ -40,9 +46,9 @@ resource "aws_eks_node_group" "public" {
   node_role_arn   = aws_iam_role.eks_nodes.arn
   subnet_ids      = data.aws_subnets.public.ids
 
-  ami_type       = var.ami_type
+  // ami_type       = var.ami_type
   // disk_size      = var.disk_size // Set in the launch template
-  instance_types = var.instance_types
+  // instance_types = var.instance_types
 
   scaling_config {
     desired_size = var.public_desired_size
@@ -51,8 +57,8 @@ resource "aws_eks_node_group" "public" {
   }
 
   launch_template {
-    name = aws_launch_template.default.name
-    version = aws_launch_template.default.latest_version
+    name = data.aws_launch_template.default.name
+    version = data.aws_launch_template.default.latest_version
   }
 
   tags = {
