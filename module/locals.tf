@@ -1,8 +1,10 @@
 locals {
   tier = {
-    public      = "pbl"
-    private     = "prv"
+    public      = "public"
+    private     = "private"
     eks_cluster = "eks"
+    dmz         = "dmz"
+    dba         = "dba"
   }
   vpc_id = "vpc-id"
 }
