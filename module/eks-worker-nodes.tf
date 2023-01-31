@@ -1,7 +1,7 @@
 # Nodes in private subnets
 resource "aws_eks_node_group" "main" {
   cluster_name    = aws_eks_cluster.main.name
-  node_group_name = join("-", [var.service_name, var.environment,"node-group"])
+  node_group_name = format("%s-%s", var.cluster_name, "node-group")
   node_role_arn   = aws_iam_role.eks_nodes.arn
   subnet_ids      = data.aws_subnets.private.ids
 
@@ -22,7 +22,7 @@ resource "aws_eks_node_group" "main" {
 
   //   tags = merge(var.default_tags, map("Name", "your-eks-cluster-ng"))
   tags = {
-    Name = join("-", [var.service_name, var.environment,"node-group-private"])
+    Name = format("%s-%s", var.cluster_name, "node-group-private")
   }
 
 /*  lifecycle {
@@ -42,7 +42,7 @@ resource "aws_eks_node_group" "main" {
 # Nodes in public subnet
 resource "aws_eks_node_group" "public" {
   cluster_name    = aws_eks_cluster.main.name
-  node_group_name = join("-", [var.service_name, var.environment,"node-group-public"])
+  node_group_name = format("%s-%s", var.cluster_name, "node-group-public")
   node_role_arn   = aws_iam_role.eks_nodes.arn
   subnet_ids      = data.aws_subnets.public.ids
 
@@ -62,7 +62,7 @@ resource "aws_eks_node_group" "public" {
   }
 
   tags = {
-    Name = join("-", [var.service_name, var.environment,"node-group-public"])
+    Name = format("%s-%s", var.cluster_name, "node-group-public")
   }
 
   # Ensure that IAM Role permissions are created before and deleted after EKS Node Group handling.

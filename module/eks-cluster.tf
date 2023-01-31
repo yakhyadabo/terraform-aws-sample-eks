@@ -1,5 +1,5 @@
 resource "aws_eks_cluster" "main" {
-  name     = join("-", [var.service_name, var.environment])
+  name     = var.cluster_name
   role_arn = aws_iam_role.eks_cluster.arn
 
   vpc_config {
@@ -17,6 +17,6 @@ resource "aws_eks_cluster" "main" {
   ]
 
   tags = {
-    Name = join("-", [var.service_name, var.environment])
+    Name = var.cluster_name
   }
 }

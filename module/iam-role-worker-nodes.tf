@@ -1,7 +1,7 @@
 #https://docs.aws.amazon.com/eks/latest/userguide/worker_node_IAM_role.html
 
 resource "aws_iam_role" "eks_nodes" {
-  name                 = "${var.service_name}-worker"
+  name                 = format("%s-worker",var.cluster_name)
   assume_role_policy = data.aws_iam_policy_document.assume_workers.json
 }
 

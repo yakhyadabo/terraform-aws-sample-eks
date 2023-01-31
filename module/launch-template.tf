@@ -4,7 +4,7 @@ data "aws_launch_template" "default" {
 }
 
 resource "aws_launch_template" "default" {
-  name     = join("-", [var.service_name, var.environment])
+  name     = format("%s-%s", var.cluster_name, "node-group")
   vpc_security_group_ids = [aws_security_group.ingress.id, aws_eks_cluster.main.vpc_config[0].cluster_security_group_id]
   key_name = var.key_name
 
@@ -30,15 +30,15 @@ resource "aws_launch_template" "default" {
 
   tags = {
     "eks:cluster-name"   = aws_eks_cluster.main.name
-    "eks:nodegroup-name" = join("-", [var.service_name, var.environment,"node-group"])
+    "eks:nodegroup-name" = format("%s-%s", var.cluster_name, "node-group")
   }
 
   tag_specifications {
     resource_type = "instance"
 
     tags = {
-      Name = join("-", [var.service_name, var.environment,"node-group"])
-      "kubernetes.io/cluster/eks-cluster-dev" = "owned"
+      Name = format("%s-%s", var.cluster_name, "node-group")
+      "kubernetes.io/cluster/${var.cluster_name}" = "owned"
     }
   }
 
@@ -46,8 +46,8 @@ resource "aws_launch_template" "default" {
     resource_type = "volume"
 
     tags = {
-      "eks:cluster-name"   =  aws_eks_cluster.main.name
-      "eks:nodegroup-name" = join("-", [var.service_name, var.environment,"node-group"])
+      "eks:cluster-name"   =  var.cluster_name
+      "eks:nodegroup-name" = format("%s-%s", var.cluster_name, "node-group")
     }
   }
 }
