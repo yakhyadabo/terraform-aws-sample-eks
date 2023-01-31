@@ -64,13 +64,13 @@ variable "instance_types" {
 
 variable "private_desired_size" {
   description = "Desired number of worker nodes in private subnet"
-  default = 1
+  default = 2
   type = number
 }
 
 variable "private_max_size" {
   description = "Maximum number of worker nodes in private subnet."
-  default = 1
+  default = 3
   type = number
 }
 
@@ -106,4 +106,14 @@ variable cluster_sg_name {
 variable nodes_sg_name {
   description = "Name of the EKS node group Security Group"
   type        = string
+}
+
+variable "public_subnets_cidr" {
+  type        = list(any)
+  description = "CIDR block for Public Subnet"
+}
+
+variable "private_subnets_cidr" {
+  type        = list(any)
+  description = "CIDR block for Private Subnet"
 }
