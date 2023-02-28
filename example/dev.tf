@@ -6,7 +6,7 @@ locals {
 }
 
 module "eks" {
-  source               = "./module"
+  source               = "../module"
   region               = var.region
   cluster_name         = local.cluster_name
   project_name         = var.project.name
